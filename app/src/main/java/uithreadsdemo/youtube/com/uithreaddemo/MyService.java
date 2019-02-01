@@ -14,9 +14,6 @@ import android.util.Log;
 
 import java.util.Random;
 
-/**
- * Created by anildeshpande on 17/07/16.
- */
 public class MyService extends Service {
 
     private int mRandomNumber;
@@ -42,14 +39,14 @@ public class MyService extends Service {
                     }
             }
             super.handleMessage(msg);
-        }
-    }
+        }//handleMessage()
+    }//RandomNumberRequestHandler
 
     class MyServiceBinder extends Binder{
         public MyService getService(){
             return MyService.this;
         }
-    }
+    }//MyServiceBinder
 
     private IBinder mBinder=new MyServiceBinder();
 
@@ -64,7 +61,7 @@ public class MyService extends Service {
         }else{
             return mBinder;
         }
-    }
+    }//onBind()
 
     @Override
     public void onRebind(Intent intent) {
@@ -73,19 +70,17 @@ public class MyService extends Service {
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        Log.i(getString(R.string.service_demo_tag),"In onUnbind");
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.i(getString(R.string.service_demo_tag),"Service Started");
     }
 
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopRandomNumberGenerator();
-        Log.i(getString(R.string.service_demo_tag),"Service Destroyed");
-    }
 
 
 
@@ -100,6 +95,13 @@ public class MyService extends Service {
                 }
             }).start();
         return START_STICKY;
+    }//onStartCommand()
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopRandomNumberGenerator();
+        Log.i(getString(R.string.service_demo_tag),"Service Destroyed");
     }
 
     private void startRandomNumberGenerator(){
@@ -115,19 +117,13 @@ public class MyService extends Service {
             }
 
         }
-    }
+    }//startRandomNumberGenerator()
 
     private void stopRandomNumberGenerator(){
         mIsRandomGeneratorOn =false;
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        Log.i(getString(R.string.service_demo_tag),"In onUnbind");
-        return super.onUnbind(intent);
-    }
-
     public int getRandomNumber(){
         return mRandomNumber;
     }
-}
+}//MyService

@@ -30,15 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MyService myService;
     private boolean isServiceBound;
     private ServiceConnection  serviceConnection;
-
-    /*Handler handler;*/
-
-
     private  Intent serviceIntent;
-
     private boolean mStopLoop;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         serviceIntent=new Intent(getApplicationContext(),MyService.class);
 
-    }
+    }//onCreate()
 
     @Override
     public void onClick(View view) {
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonGetRandomNumber: setRandomNumber();break;
 
         }
-    }
+    }//onclick()
 
     private void bindService(){
         if(serviceConnection==null){
@@ -129,14 +122,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
         
-    }
+    }//bindService()
 
     private void unbindService(){
         if(isServiceBound){
             unbindService(serviceConnection);
             isServiceBound=false;
         }
-    }
+    }//unbindService()
 
     private void setRandomNumber(){
         if(isServiceBound){
@@ -144,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             textViewthreadCount.setText("Service not bound");
         }
-    }
+    }//setRandomNumber()
 
     private class MyAsyncTask extends AsyncTask<Integer, Integer, Integer> {
 
@@ -170,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
             return customCounter;
-        }
+        }//doInBackground()
 
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -184,5 +177,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textViewthreadCount.setText(""+integer);
             count=integer;
         }
-    }
-}
+    }//MyAsyncTask
+}//MainActivity
